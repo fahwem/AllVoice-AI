@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllVoice AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <header class="w-full bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-6 py-4 transition-colors">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-zinc-900 dark:text-white flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span>
+                    AllVoice AI - By Mohamed Faheem
+                </h1>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Welcome! Transform your words into natural speech with global accents.</p>
+            </div>
+            
+            <button id="themeToggle" type="button" class="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition">
+                <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <section class="lg:col-span-7 flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+                <label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Your Text Script</label>
+                <div class="flex items-center space-x-3 text-xs font-medium">
+                    <button type="button" id="sampleBtn" class="text-blue-600 dark:text-blue-400 hover:underline">Sample Text</button>
+                    <span class="text-zinc-300 dark:text-zinc-700">|</span>
+                    <button type="button" id="pasteBtn" class="text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200">Paste</button>
+                    <span class="text-zinc-300 dark:text-zinc-700">|</span>
+                    <button type="button" id="clearBtn" class="text-red-500 hover:underline">Clear</button>
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm overflow-hidden transition-colors">
+                <textarea id="text" name="text" form="ttsForm" required placeholder="Hello! Type or paste the message you want to bring to life..."
+                    class="w-full flex-1 p-4 text-sm bg-transparent focus:outline-none text-zinc-800 dark:text-zinc-100 resize-none min-h-[350px] leading-relaxed placeholder:text-zinc-400 dark:placeholder:text-zinc-600"></textarea>
+                
+                <div class="flex justify-between items-center px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <span id="charCount">0 characters</span>
+                    <span id="wordCount">0 words</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="lg:col-span-5 flex flex-col space-y-4">
+            <form id="ttsForm" class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 space-y-5 shadow-sm transition-colors">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Voice & Accent Settings</h2>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Country / Language Accent</label>
+                    <select id="regionSelect" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none text-zinc-800 dark:text-zinc-200 transition-colors">
+                        <option value="" disabled selected>Loading countries...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Voice Speaker</label>
+                    <select id="voice" name="voice" required class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none text-zinc-800 dark:text-zinc-200 transition-colors">
+                        <option value="" disabled selected>Select country first</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Emotional Tone / Speaking Style</label>
+                    <select id="style" name="style" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none text-zinc-800 dark:text-zinc-200 transition-colors">
+                        <option value="general" selected>Neutral / Default Tone</option>
+                        <option value="chat">Conversational & Casual</option>
+                        <option value="cheerful">Cheerful & Upbeat</option>
+                        <option value="empathy">Empathetic & Warm</option>
+                        <option value="enthusiastic">Enthusiastic & Excited</option>
+                        <option value="newscast">Professional News Anchor</option>
+                        <option value="customerservice">Customer Support</option>
+                    </select>
+                </div>
+
+                <div class="space-y-4 pt-3 border-t border-zinc-200 dark:border-zinc-800">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Speech Fine-Tuning</h3>
+
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-zinc-600 dark:text-zinc-400 font-medium">Speed (Rate)</span>
+                            <span id="rateVal" class="text-blue-600 dark:text-blue-400 font-mono font-semibold">0%</span>
+                        </div>
+                        <input type="range" id="rateSlider" min="-50" max="50" value="0" step="5" class="w-full accent-blue-600 cursor-pointer">
+                        <input type="hidden" name="rate" id="rateInput" value="+0%">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-zinc-600 dark:text-zinc-400 font-medium">Pitch (Tone)</span>
+                            <span id="pitchVal" class="text-blue-600 dark:text-blue-400 font-mono font-semibold">0Hz</span>
+                        </div>
+                        <input type="range" id="pitchSlider" min="-20" max="20" value="0" step="2" class="w-full accent-blue-600 cursor-pointer">
+                        <input type="hidden" name="pitch" id="pitchInput" value="+0Hz">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-zinc-600 dark:text-zinc-400 font-medium">Volume</span>
+                            <span id="volVal" class="text-blue-600 dark:text-blue-400 font-mono font-semibold">0%</span>
+                        </div>
+                        <input type="range" id="volSlider" min="-50" max="50" value="0" step="5" class="w-full accent-blue-600 cursor-pointer">
+                        <input type="hidden" name="volume" id="volInput" value="+0%">
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-zinc-200 dark:border-zinc-800">
+                    <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Audio Output Format</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center justify-center p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-950/40 transition">
+                            <input type="radio" name="audio_format" value="mp3" checked class="hidden">
+                            <span class="text-xs font-medium text-zinc-700 dark:text-zinc-200">MP3</span>
+                        </label>
+                        <label class="flex items-center justify-center p-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-950/40 transition">
+                            <input type="radio" name="audio_format" value="wav" class="hidden">
+                            <span class="text-xs font-medium text-zinc-700 dark:text-zinc-200">WAV</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition shadow-sm active:scale-[0.99]">
+                    Synthesize Audio
+                </button>
+            </form>
+
+            <div id="status" class="text-center text-sm hidden font-medium"></div>
+
+            <div id="audioContainer" class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 space-y-3 shadow-sm hidden">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Ready Audio</label>
+                    <a id="downloadBtn" download="speech.mp3" class="text-xs font-medium px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 rounded-lg transition border border-zinc-200 dark:border-zinc-700">
+                        Download File
+                    </a>
+                </div>
+                <audio id="audioPlayer" controls class="w-full h-10 accent-blue-600"></audio>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            html.classList.remove('dark');
+        } else {
+            html.classList.add('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+
+        let voiceData = {};
+        const textInput = document.getElementById('text');
+        const charCount = document.getElementById('charCount');
+        const wordCount = document.getElementById('wordCount');
+        const regionSelect = document.getElementById('regionSelect');
+        const voiceSelect = document.getElementById('voice');
+
+        const setupSlider = (sliderId, valId, inputId, unit) => {
+            document.getElementById(sliderId).addEventListener('input', (e) => {
+                const val = e.target.value;
+                const formatted = val >= 0 ? `+${val}${unit}` : `${val}${unit}`;
+                document.getElementById(valId).textContent = formatted;
+                document.getElementById(inputId).value = formatted;
+            });
+        };
+
+        setupSlider('rateSlider', 'rateVal', 'rateInput', '%');
+        setupSlider('pitchSlider', 'pitchVal', 'pitchInput', 'Hz');
+        setupSlider('volSlider', 'volVal', 'volInput', '%');
+
+        textInput.addEventListener('input', () => {
+            const txt = textInput.value;
+            charCount.textContent = `${txt.length} characters`;
+            const words = txt.trim() ? txt.trim().split(/\s+/).length : 0;
+            wordCount.textContent = `${words} words`;
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            textInput.value = '';
+            textInput.dispatchEvent(new Event('input'));
+        });
+
+        document.getElementById('sampleBtn').addEventListener('click', () => {
+            textInput.value = "Welcome to AllVoice AI! This tool lets you turn written text into high-quality spoken audio using natural voices from around the world.";
+            textInput.dispatchEvent(new Event('input'));
+        });
+
+        document.getElementById('pasteBtn').addEventListener('click', async () => {
+            try {
+                const clipText = await navigator.clipboard.readText();
+                textInput.value += clipText;
+                textInput.dispatchEvent(new Event('input'));
+            } catch (err) {
+                alert("Clipboard access permission denied.");
+            }
+        });
+
+        async function loadVoices() {
+            try {
+                const res = await fetch('/voices');
+                voiceData = await res.json();
+                regionSelect.innerHTML = '';
+                
+                Object.keys(voiceData).forEach(region => {
+                    const opt = document.createElement('option');
+                    opt.value = region;
+                    opt.textContent = region;
+                    if (region.includes("United States")) opt.selected = true;
+                    regionSelect.appendChild(opt);
+                });
+
+                updateVoiceDropdown(regionSelect.value || Object.keys(voiceData)[0]);
+            } catch (err) {
+                regionSelect.innerHTML = '<option value="">Failed to load regions</option>';
+            }
+        }
+
+        function updateVoiceDropdown(selectedRegion) {
+            voiceSelect.innerHTML = '';
+            (voiceData[selectedRegion] || []).forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.short_name;
+                opt.textContent = v.label;
+                voiceSelect.appendChild(opt);
+            });
+        }
+
+        regionSelect.addEventListener('change', (e) => updateVoiceDropdown(e.target.value));
+
+        document.getElementById('ttsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const status = document.getElementById('status');
+            const audioContainer = document.getElementById('audioContainer');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            btn.disabled = true;
+            status.textContent = "Creating audio...";
+            status.className = "text-center text-sm text-blue-600 dark:text-blue-400 font-medium animate-pulse";
+            status.classList.remove('hidden');
+
+            try {
+                const formData = new FormData(e.target);
+                const response = await fetch('/synthesize', { method: 'POST', body: formData });
+                if (!response.ok) throw new Error('Generation failed.');
+
+                const blob = await response.blob();
+                const audioUrl = URL.createObjectURL(blob);
+                
+                audioPlayer.src = audioUrl;
+                downloadBtn.href = audioUrl;
+                
+                const fmt = formData.get('audio_format');
+                downloadBtn.download = `allvoice_audio.${fmt}`;
+
+                audioContainer.classList.remove('hidden');
+                status.classList.add('hidden');
+                audioPlayer.play();
+            } catch (err) {
+                status.textContent = "Could not generate speech. Please try again.";
+                status.className = "text-center text-sm text-red-500 font-medium";
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        loadVoices();
+    </script>
+</body>
+</html>
