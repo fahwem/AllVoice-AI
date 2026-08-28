@@ -25,9 +25,7 @@ AllVoice AI is a lightweight, responsive web application designed to synthesize 
 
 ## Screenshots
 
-| Desktop Web Dashboard | Audio Synthesis Controls |
-| :---: | :---: |
-| ![Dashboard Screenshot](https://via.placeholder.com/600x350?text=AllVoice+AI+Dashboard) | ![Controls Screenshot](https://via.placeholder.com/600x350?text=Voice+%26+Style+Settings) |
+
 
 > *Note: Replace the placeholder URLs above with actual image links or relative paths to your screenshots (e.g., `assets/dashboard.png`) once added to your repository.*
 
