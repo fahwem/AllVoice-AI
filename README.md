@@ -39,22 +39,23 @@ Follow these steps to launch AllVoice AI locally on your machine.
 * **Git** for repository management.
 
 ### 1. Clone the Repository
-
+```bash
 git clone https://github.com/fahwem/AllVoice-AI.git
 cd AllVoice-AI
+```
 
 ### 2. Install Dependencies
 
 Install all required Python packages using `pip`:
-
+```bash
 py -m pip install fastapi uvicorn edge-tts pycountry python-multipart
-
+```
 ### 3. Run the Server
 
 Launch the ASGI server using Uvicorn:
-
+```bash
 py -m uvicorn main:app --reload
-
+```
 ### 4. Open in Browser
 
 Once the terminal displays `Application startup complete`, open your browser and navigate to:
